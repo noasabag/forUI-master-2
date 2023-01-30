@@ -1,0 +1,22 @@
+.button {
+    border:1px solid white;
+    background-color: white;
+    width: 500px;
+    padding: 10px;
+    margin-left: 10cm;
+    text-align: right;
+  }
+  h3 {
+    text-align: left;
+  }
+  
+  header{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+   .btn{
+    border:1px solid white;
+    background-color: white;
+  }

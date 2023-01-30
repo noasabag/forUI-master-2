@@ -1,0 +1,112 @@
+.text {
+  border: 1px solid lightgray;
+  width: 80%;
+  padding: 10px;
+  margin: 0px auto;
+  margin-top: -10px;
+  /* text-align: center; */
+}
+.title-text,
+.translated-word {
+  text-align: center;
+}
+
+.input-text {
+  width: 98%;
+  height: 30px;
+  border: 1px solid;
+  margin: 10px 0px;
+}
+.signup-btn,
+.savebtn {
+  border: 1px solid black !important;
+  width: 100%;
+  height: 35px;
+  background-color: black !important;
+  color: white !important;
+  text-align: center;
+}
+.signin-link,
+.signup-link {
+  border: 1px solid white;
+  background-color: white;
+  font-weight: 800;
+}
+
+button {
+  cursor: pointer;
+}
+
+/*----- display text page-----*/
+.textpage-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* .word-box{
+  width:600px;
+  height:60vh;
+} */
+
+.wordlist-cont {
+  display: list-item;
+  justify-content: left;
+  align-items: left;
+}
+.gettext-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.getText-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid grey;
+  padding: 10px;
+  text-align: center;
+}
+
+/*---- dictonary management */
+.wordlist-contain {
+  width: 800%;
+  min-height: 8vh;
+  padding: 10px;
+  padding-left: 382px;
+  margin-bottom: -30px;
+}
+.word-title {
+  display: flex;
+  justify-content: space-between;
+}
+.flex {
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.drop-symbol {
+  margin-top: -12px;
+  width: 20px;
+  padding: 5px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.box-align {
+  margin-top: -15px;
+}
+
+.display-text {
+  border: 1px solid black;
+  width: 100px;
+  height: 30px;
+  background-color: white;
+  text-align: center;
+}
+.save-word {
+  background: #000;
+  color: white;
+  margin-top: 20px;
+  margin-right: 306px;
+}
