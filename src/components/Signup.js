@@ -20,7 +20,7 @@ const Signup = () => {
   };
   const option = {
     method: "post",
-    url: "http://localhost:3001/user/newUser",
+    url: "https://pem-backend-1605.uc.r.appspot.com/user/newUser",
     // headers: {
     //   "Content-Type": "application/json",
     // },
