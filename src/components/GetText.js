@@ -9,7 +9,7 @@ const GetText = () => {
 
   useEffect(() => {
     axios({
-      url: "https://pem-backend-1605.uc.r.appspot.com/text/getText",
+      url: "https://pem-backend-376512.oa.r.appspot.com/text/getText",
       headers: {
         Authorization: localStorage.getItem("token"),
       },

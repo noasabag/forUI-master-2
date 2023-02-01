@@ -9,7 +9,7 @@ const WordList = () => {
 
   useEffect(() => {
     axios({
-      url: "http://localhost:3001/text/getText",
+      url: "https://pem-backend-376512.oa.r.appspot.com/text/getText",
       headers: {
         Authorization: localStorage.getItem("token"),
       },
@@ -22,7 +22,7 @@ const WordList = () => {
       });
   }, []);
   const markUsKnown = (word) => {
-    axios("http://localhost:3001/word/markWordUsKnown", {
+    axios("https://pem-backend-376512.oa.r.appspot.comword/markWordUsKnown", {
       method: "POST",
       headers: {
         Authorization: localStorage.getItem("token"),
@@ -30,7 +30,7 @@ const WordList = () => {
     });
   };
   useEffect(() => {
-    axios("http://localhost:3001/word/wordslist", {
+    axios("https://pem-backend-376512.oa.r.appspot.com/word/wordslist", {
       method: "POST",
       headers: {
         Authorization: localStorage.getItem("token"),

@@ -31,7 +31,10 @@ const ProtectedRoute = () => {
         redirect: "follow",
       };
 
-      fetch("http://localhost:3001/user/getme", requestOptions)
+      fetch(
+        "https://pem-backend-376512.oa.r.appspot.com/user/getme",
+        requestOptions
+      )
         .then((response) => response.text())
         .then((result) => {
           if (result.Authorization) {

@@ -21,7 +21,10 @@ const DisplayText = (props) => {
       },
     };
 
-    await axios(`http://localhost:3001/word/translate/${word}`, option)
+    await axios(
+      `https://pem-backend-376512.oa.r.appspot.com/word/translate/${word}`,
+      option
+    )
       .then((response) => {
         setNativeWord(word);
         setTranslate(response.data);
@@ -34,7 +37,7 @@ const DisplayText = (props) => {
   useEffect(() => {
     axios({
       method: "POST",
-      url: "http://localhost:3001/text/getTextByTitle",
+      url: "https://pem-backend-376512.oa.r.appspot.com/text/getTextByTitle",
       headers: {
         Authorization: localStorage.getItem("token"),
       },

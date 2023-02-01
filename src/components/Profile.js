@@ -1,4 +1,4 @@
-import profileStyle1 from '../pages/profile.css'
+import profileStyle1 from "../pages/profile.css";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 const Profile = () => {
@@ -18,7 +18,7 @@ const Profile = () => {
   //   };
   useEffect(() => {
     const option = {
-      url: "http://localhost:3001/user/getme",
+      url: "https://pem-backend-376512.oa.r.appspot.com/user/getme",
       // headers: {
       //   "Content-Type": "application/json",
       // },
@@ -40,54 +40,54 @@ const Profile = () => {
   return (
     <div>
       <form className="signIn">
-        <p style={{textAlign:'center'}}>Account Deatails</p>
+        <p style={{ textAlign: "center" }}>Account Deatails</p>
         <div>
-        <label>First Name</label>
+          <label>First Name</label>
         </div>
         <div>
-        <input
-          className='input-text'
-          value={firstName}
-          onChange={(e) => {
-            setFirstName(e.target.value);
-          }}
-        ></input>
+          <input
+            className="input-text"
+            value={firstName}
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+          ></input>
         </div>
         <div>
-        <label> Surname</label>
+          <label> Surname</label>
         </div>
         <div>
-        <input
-        className='input-text'
-          value={surname}
-          onChange={(e) => {
-            setSurname(e.target.value);
-          }}
-        ></input> 
+          <input
+            className="input-text"
+            value={surname}
+            onChange={(e) => {
+              setSurname(e.target.value);
+            }}
+          ></input>
         </div>
         <div>
-        <label>Email</label> 
+          <label>Email</label>
         </div>
         <div>
-        <input
-        className='input-text'
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        ></input>
+          <input
+            className="input-text"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          ></input>
         </div>
-       <div>
-       <label>Password</label>
-       </div>
-       <div>
-       <input
-       className='input-text'
-       ></input>
-       </div>
-       <div>
-       <button className='savebtn' type="submit">Save changes</button>
-       </div>
+        <div>
+          <label>Password</label>
+        </div>
+        <div>
+          <input className="input-text"></input>
+        </div>
+        <div>
+          <button className="savebtn" type="submit">
+            Save changes
+          </button>
+        </div>
       </form>
     </div>
   );

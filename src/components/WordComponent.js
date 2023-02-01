@@ -13,9 +13,11 @@ const WordComponent = (props) => {
       data: { nativeWord, translate, title },
     };
 
-    await axios(`http://localhost:3001/word/addWordToTheList`, option)
-      .then((response) => {
-      })
+    await axios(
+      `https://pem-backend-376512.oa.r.appspot.com/addWordToTheList`,
+      option
+    )
+      .then((response) => {})
       .catch((e) => {
         console.log("whhattt" + e);
       });
