@@ -9,12 +9,14 @@ const GetText = () => {
 
   useEffect(() => {
     axios({
-      url: "https://pem-backend-376512.oa.r.appspot.com/text/getText",
+      url: `${process.env.REACT_APP_URL}/text/getText`,
       headers: {
         Authorization: localStorage.getItem("token"),
       },
     })
       .then((text) => {
+        console.log(`${process.env.REACT_APP_URL}/text/getText`);
+        console.log(text.data);
         setDbText(text.data);
       })
       .catch((e) => {

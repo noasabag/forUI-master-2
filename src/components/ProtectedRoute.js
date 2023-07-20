@@ -3,64 +3,44 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
-  const [Authorization, setAuthorization] = useState();
-  //console.log(token);
-  //
+  const [Authorization, setAuthorization] = useState("");
   const token = localStorage.getItem("token");
   console.log(token);
+  console.log(children);
   useEffect(() => {
-    setAuthorization(token);
-  }, [token]);
+    if (token !== null) {
+      setAuthorization(token);
+      console.log(Authorization);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetch = async () => {
-      var myHeaders = new Headers();
-      myHeaders.append(
-        "Authorization",
-        "eyJhbGciOiJIUzI1NiJ9.NjM3MDEyN2M2ZDhjOWEwZTllNDFiMWM3.5ehy_y9oqvcBVfhfIXTZag6ob--Lzt7hESjKwzDUMMw"
-      );
+    var myHeaders = new Headers();
+    console.log(Authorization);
 
-      var raw = "";
+    myHeaders.append("Authorization", Authorization);
+    console.log(myHeaders.get("Authorization"));
+    const a = myHeaders.get("Authorization");
 
-      var requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
-
-      fetch(
-        "https://pem-backend-376512.oa.r.appspot.com/user/getme",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) => {
-          if (result.Authorization) {
-            navigate("/text");
-          } else {
-            navigate("/signin");
-          }
-        })
-        .catch((error) => navigate("/signin"));
-
-      //     .then((response) => {
-      //       console.log(response);
-
-      //       if (response.status !== 400) {
-      //         console.log("token=>>>" + token);
-      //         console.log(response);
-      //         navigate("/text");
-      //       } else {
-      //         throw new Error();
-      //       }
-      //     })
-      //     .catch((e) => {
-      //       navigate("/signin");
-      //     });
+    const options = {
+      method: "get",
+      headers: {
+        Authorization: a,
+      },
     };
-    fetch();
+
+    axios(`${process.env.REACT_APP_URL}/user/getme`, options)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          return children;
+        } else {
+          navigate("/signin");
+        }
+      })
+      .catch((error) => navigate("/signin"));
   }, [Authorization]);
 };
 export default ProtectedRoute;

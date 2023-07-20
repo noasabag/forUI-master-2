@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 const SigninScreen = () => {
   const [email, setEmail] = useState("");
+  const [errormsg, setErrormsg] = useState("");
+
   const [password, setPassword] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const SigninScreen = () => {
   const signinHandler = useCallback(() => {
     const option = {
       method: "post",
-      url: "https://pem-backend-376512.oa.r.appspot.com/user/login",
+      url: `${process.env.REACT_APP_URL}/user/login`,
       // headers: {
       //   "Content-Type": "application/json",
       // },
@@ -31,13 +33,14 @@ const SigninScreen = () => {
     axios(option)
       .then(function (response) {
         const { token } = response.data;
-
         if (response.status === 200) {
           console.log(response.status);
           localStorage.setItem("token", token);
           setIsLoggedIn(true);
         } else {
           console.log(response.data);
+          setErrormsg(response.data);
+
           setIsLoggedIn(false);
         }
         // console.log(response.data + "  " + isLoggedIn + response.status);
@@ -58,6 +61,9 @@ const SigninScreen = () => {
   }, [isLoggedIn, navigate]);
   return (
     <div>
+      {console.log(
+        "proccses" + process.env.NODE_ENV + "  " + process.env.REACT_APP_URL
+      )}
       <h1 className="title">Privte English Mentor</h1>
       <form
         className="signIn"
@@ -110,6 +116,8 @@ const SigninScreen = () => {
           <input type="checkbox" name="loggedin" />{" "}
           <label>Keep me logged in</label>
         </div>
+
+        <h6 style={{ color: "red" }}>{errormsg}</h6>
 
         <p style={{ textAlign: "center" }}>
           Don't have an account?

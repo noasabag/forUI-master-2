@@ -10,7 +10,18 @@ import GetText from "./components/GetText";
 import SigninScreen from "./components/SigninScreen";
 import Profile from "./components/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 function App() {
+  function clearStorage() {
+    let session = sessionStorage.getItem("register");
+    console.log(session);
+    if (session == null) {
+      localStorage.removeItem("token");
+    }
+    sessionStorage.setItem("register", 1);
+  }
+  window.addEventListener("load", clearStorage);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -24,13 +35,27 @@ function App() {
         />
 
         <Route path="/signin" element={<SigninScreen />} />
+        <Route path="/signup" element={<Signup />} />
 
         <Route element={<Navbar />}>
           <Route path="/text" element={<GetText />} />
 
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/wordlist" element={<WordList />} />
+          <Route
+            path="/profile"
+            element={
+              // <ProtectedRoute>
+              <Profile />
+              //</Route>  </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/wordlist"
+            element={
+              <ProtectedRoute>
+                <WordList />
+              </ProtectedRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

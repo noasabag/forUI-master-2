@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
 import axios from "axios";
+import Popup from "reactjs-popup";
 import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
+  const [errormsg, setErrormsg] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const Signup = () => {
   };
   const option = {
     method: "post",
-    url: "https://pem-backend-376512.oa.r.appspot.com/user/newUser",
+    url: `${process.env.REACT_APP_URL}/user/newUser`,
     // headers: {
     //   "Content-Type": "application/json",
     // },
@@ -42,7 +44,7 @@ const Signup = () => {
         localStorage.setItem("token", response.data.token);
       })
       .catch((e) => {
-        console.log(e.response.data);
+        setErrormsg(e.response.data);
       });
   };
 
@@ -157,7 +159,11 @@ const Signup = () => {
             Sign up
           </button>
         </div>
+        <h6 style={{ color: "red" }}>{errormsg}</h6>
       </form>
+      <Popup position="right center">
+        <div>Popup content here !!</div>
+      </Popup>
     </div>
   );
 };

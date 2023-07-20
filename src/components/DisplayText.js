@@ -6,8 +6,9 @@ const DisplayText = (props) => {
   const [nativeWord, setNativeWord] = useState();
   const [translate, setTranslate] = useState();
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState([]);
   const { title } = props;
+  //const title = "Absolute Success is Luck. Relative Success is Hard Work.";
 
   const [textTitle, setTextTitle] = useState(
     (prevState) => console.log("kk" + prevState)
@@ -21,30 +22,26 @@ const DisplayText = (props) => {
       },
     };
 
-    await axios(
-      `https://pem-backend-376512.oa.r.appspot.com/word/translate/${word}`,
-      option
-    )
+    await axios(`${process.env.REACT_APP_URL}/word/translate/${word}`, option)
       .then((response) => {
         setNativeWord(word);
+        console.log(response.data + word);
         setTranslate(response.data);
       })
       .catch((e) => {
         console.log("ee" + e);
       });
   }, []);
-
   useEffect(() => {
     axios({
       method: "POST",
-      url: "https://pem-backend-376512.oa.r.appspot.com/text/getTextByTitle",
+      url: `${process.env.REACT_APP_URL}/text/getTextByTitle`,
       headers: {
         Authorization: localStorage.getItem("token"),
       },
       data: { title },
     })
       .then((response) => {
-        //.log(textTitle);
         setText(response.data.text);
         setTextTitle(response.data.title);
       })
@@ -53,20 +50,25 @@ const DisplayText = (props) => {
       });
   }, [title]);
 
-  const splitedText = text.split(" ");
+  //onst splitedText = text.map((textParagraph) => textParagraph.split(" "));
 
   return (
     <div>
       <h1 className="title-text">{textTitle}</h1>
       <p className="text">
-        {splitedText.map((word) => (
-          <span
-            onClick={() => {
-              sendWordToTranslator(word, title);
-            }}
-          >
-            {word}{" "}
-          </span>
+        {text.map((textParagraph) => (
+          <p>
+            {textParagraph.split(" ").map((word) => (
+              <span
+                onClick={() => {
+                  sendWordToTranslator(word);
+                }}
+              >
+                {word}{" "}
+              </span>
+            ))}
+            <br />
+          </p>
         ))}
       </p>
       <WordComponent

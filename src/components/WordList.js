@@ -1,49 +1,70 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import List from "./List";
 const WordList = () => {
-  const [wordsArr, setWordsArr] = useState([]);
   const navigate = useNavigate();
   const [dbText, setDbText] = useState([{}]);
-  const [selectedText, setselectedText] = useState();
+  const [lineTroughState, setLineTroughState] = useState(true);
+
+  const [selectedText, setselectedText] = useState("");
+  const [wordsArr, setWordsArr] = useState([]);
 
   useEffect(() => {
-    axios({
-      url: "https://pem-backend-376512.oa.r.appspot.com/text/getText",
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    })
-      .then((text) => {
-        setDbText(text.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
-  const markUsKnown = (word) => {
-    axios("https://pem-backend-376512.oa.r.appspot.comword/markWordUsKnown", {
-      method: "POST",
-      headers: {
-        Authorization: localStorage.getItem("token"),
-      },
-    });
-  };
-  useEffect(() => {
-    axios("https://pem-backend-376512.oa.r.appspot.com/word/wordslist", {
-      method: "POST",
+    axios(`${process.env.REACT_APP_URL}/word/wordslist`, {
       headers: {
         Authorization: localStorage.getItem("token"),
       },
       data: { selectedText },
     })
       .then((res) => {
+        console.log(selectedText);
+
         setWordsArr(res.data);
       })
       .catch((e) => {
         console.log(e);
       });
-  }, [selectedText]);
+  }, [selectedText, lineTroughState]);
+  const lineTrough = (unknownWord) => {
+    setLineTroughState(!lineTroughState);
+    console.log(lineTroughState);
+
+    axios(`${process.env.REACT_APP_URL}/word/markWordUsKnown`, {
+      method: "POST",
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+      data: { unknownWord },
+    });
+  };
+
+  useEffect(() => {
+    axios({
+      url: `${process.env.REACT_APP_URL}/text/getText`,
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
+      .then((text) => {
+        console.log("markWordUsKnown88");
+
+        setDbText(text.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+  // const markUsKnown = (word) => {
+  //   console.log("markWordUsKnown");
+  //   axios(`${process.env.REACT_APP_URL}/word/markWordUsKnown`, {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: localStorage.getItem("token"),
+  //     },
+  //     data: { word },
+  //   });
+  // };
 
   return (
     <div>
@@ -54,6 +75,7 @@ const WordList = () => {
           style={{ margin: "0 auto" }}
           onChange={(e) => {
             setselectedText(e.target.value);
+            console.log(selectedText);
           }}
 
           //  defaultChecked={textTitle}
@@ -64,33 +86,15 @@ const WordList = () => {
             Filter By text
           </option>
           {dbText.map((textObj) => {
-            return <option value={textObj.title}>{textObj.title}</option>;
+            return (
+              <option key={textObj.title} value={textObj.title}>
+                {textObj.title}
+              </option>
+            );
           })}
         </select>
-        <ul>
-          {wordsArr.map((unknownWord) => {
-            if (!unknownWord.learned) {
-              return (
-                <div className="wordlist-contain">
-                  <li>
-                    <div className="box-align">
-                      <h5> {unknownWord.word}</h5>
-                      <p className="box-align">{unknownWord.translate}</p>
-                      <button
-                        onClick={() => {
-                          markUsKnown(unknownWord.word);
-                        }}
-                      >
-                        remove
-                      </button>
-                    </div>
-                  </li>
-                </div>
-              );
-            }
-          })}
-        </ul>
       </div>
+      <List lineTrough={lineTrough} wordsArr={wordsArr} />
       <div>
         <p style={{ textAlign: "center" }}> Learn new words</p>
         <div className="flex">

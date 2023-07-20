@@ -18,7 +18,7 @@ const Profile = () => {
   //   };
   useEffect(() => {
     const option = {
-      url: "https://pem-backend-376512.oa.r.appspot.com/user/getme",
+      url: `${process.env.REACT_APP_URL}/user/getme`,
       // headers: {
       //   "Content-Type": "application/json",
       // },
@@ -28,6 +28,7 @@ const Profile = () => {
     };
     axios(option)
       .then((response) => {
+        console.log("profile");
         setFirstName(response.data.firstname);
         setSurname(response.data.lastname);
         setEmail(response.data.email);
