@@ -1,46 +1,85 @@
-import { stripBasename } from "@remix-run/router";
-import axios from "axios";
+// import axios from "axios";
+// import React, { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// const ProtectedRoute = (props, { children }) => {
+//   const navigate = useNavigate();
+//   const [Authorization, setAuthorization] = useState("");
+//   const token = localStorage.getItem("token");
+//   const path = props.path;
+//   useEffect(() => {
+//     if (token !== null) {
+//       setAuthorization(token);
+//     }
+//   }, []);
+//   useEffect(() => {
+//     var myHeaders = new Headers();
+//     myHeaders.append("Authorization", Authorization);
+//     const a = myHeaders.get("Authorization");
+//     const options = {
+//       method: "get",
+//       headers: {
+//         Authorization:
+//           "eyJhbGciOiJIUzI1NiJ9.NjM2Yjk3NjNjOGFlOGY4YmJiNjExYjli.oVMVjqO3rwGTaTIZreSp9pVmSGfnAWwZLJfNY1Ae6cA",
+//       },
+//     };
+//     axios(`${process.env.REACT_APP_URL}/user/getme`, options)
+//       .then((response) => {
+//         if (response.status === 200) {
+//           return children;
+//         } else {
+//           navigate("/signin");
+//         }
+//       })
+//       .catch((error) => {
+//         navigate("/signin");
+//       });
+//   }, [Authorization]);
+// };
+// export default ProtectedRoute;
+
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
+import axios from "axios";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
-  const [Authorization, setAuthorization] = useState("");
-  const token = localStorage.getItem("token");
-  console.log(token);
-  console.log(children);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  console.log(isAuthenticated, "isAuthenticated before");
+
   useEffect(() => {
-    if (token !== null) {
-      setAuthorization(token);
-      console.log(Authorization);
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      axios
+        .get(`${process.env.REACT_APP_URL}/user/getme`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            setIsAuthenticated(true);
+          } else {
+            setIsAuthenticated(false);
+          }
+        })
+        .catch((error) => {
+          setIsAuthenticated(false);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setIsAuthenticated(false);
+      setIsLoading(false);
     }
-  }, []);
+  }, [isAuthenticated]);
 
-  useEffect(() => {
-    var myHeaders = new Headers();
-    console.log(Authorization);
+  if (isLoading) return <h2>Loading...</h2>;
 
-    myHeaders.append("Authorization", Authorization);
-    console.log(myHeaders.get("Authorization"));
-    const a = myHeaders.get("Authorization");
-
-    const options = {
-      method: "get",
-      headers: {
-        Authorization: a,
-      },
-    };
-
-    axios(`${process.env.REACT_APP_URL}/user/getme`, options)
-      .then((response) => {
-        console.log(response);
-        if (response.status === 200) {
-          return children;
-        } else {
-          navigate("/signin");
-        }
-      })
-      .catch((error) => navigate("/signin"));
-  }, [Authorization]);
+  return isAuthenticated ? children : navigate("/signin");
 };
+
 export default ProtectedRoute;

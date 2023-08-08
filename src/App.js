@@ -25,27 +25,33 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <GetText />
-            </ProtectedRoute>
-          }
-        />
-
         <Route path="/signin" element={<SigninScreen />} />
         <Route path="/signup" element={<Signup />} />
 
         <Route element={<Navbar />}>
-          <Route path="/text" element={<GetText />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <GetText />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/text"
+            element={
+              <ProtectedRoute>
+                <GetText />{" "}
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/profile"
             element={
-              // <ProtectedRoute>
-              <Profile />
-              //</Route>  </ProtectedRoute>
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
             }
           />
           <Route

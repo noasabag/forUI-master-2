@@ -15,8 +15,6 @@ const GetText = () => {
       },
     })
       .then((text) => {
-        console.log(`${process.env.REACT_APP_URL}/text/getText`);
-        console.log(text.data);
         setDbText(text.data);
       })
       .catch((e) => {
